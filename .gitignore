@@ -1,0 +1,4 @@
+wikiai/
+__pycache__/
+*.pyc
+*.log
