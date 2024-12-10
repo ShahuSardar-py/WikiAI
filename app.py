@@ -1,26 +1,28 @@
-import os
+#imports
 import streamlit as st
-from langchain_core.prompts import PromptTemplate
-from langchain_core.output_parsers import JsonOutputParser 
-from langchain_core.exceptions import OutputParserException
-from dotenv import load_dotenv
-import wikipedia
-from langchain.chains import LLMChain
-from langchain_google_genai import ChatGoogleGenerativeAI
 from wiki import search_and_fetch
 from LLM import get_response
 
+#setting streamlit page
 st.set_page_config(
     page_icon='🤖',
     page_title="WikiAI"
+
 )
 
-user_input= st.text_input("Search WikiAI")
+st.title("WikiAI 📖")
+st.markdown("Get reliable AI summaries for various usecases. Trusted inforamtion, sourced from :green[Wikipedia]")
+st.divider()
+
+
+user_input= st.text_input("Search WikiAI",
+                          "Enter keywords")
+
 content_style = st.selectbox(
     "I need summary for:",
     ["For presentations", "General Knowledge & Understanding", "Fact-Checking"]
 )
-submit= st.button("Search & Summarize")
+submit= st.button("Search & Summarize", icon=":material/robot:")
 
 
 if submit:
@@ -32,8 +34,13 @@ if submit:
             summary = get_response(page_content, content_style)
             st.subheader(f"AI Summary for {content_style} on {title}")
             st.write(summary)
+            
     else:
         st.error("Please enter a keyword.")
 
-
+with st.expander("About WikiAI"):
+    st.write('''
+        A simple LLM application running on Gemini 1.5 flash. Let's you get fast and personlized AI summaries with information soruced only from _Wikipedia_
+    
+    ''')
 
